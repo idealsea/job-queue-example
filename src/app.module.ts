@@ -5,6 +5,7 @@ import { BullModule } from '@nestjs/bull';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { EmailProcessor } from './email.processor';
 
 @Module({
   imports: [
@@ -15,15 +16,15 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       },
     }),
     BullModule.registerQueue({
-      name: 'emailSending',
+      name: 'mail',
     }),
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.example.com',
-        port: 587,
+        host: 'smtpdm.aliyun.com',
+        port: 25,
         auth: {
-          user: '',
-          password: '',
+          user: 'service@verification.honghuaji.com',
+          pass: 'hlxhgAliyun8X4',
         },
       },
       template: {
@@ -33,6 +34,6 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EmailProcessor],
 })
 export class AppModule {}
